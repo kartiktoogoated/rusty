@@ -1,3 +1,30 @@
+use std::thread;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 0..5{
+            println!("hi from spawned thread {}", i);
+        }
+    });
+
+    for i in 0..5 {
+        println!("hi from the main thread {}", i);
+    }
+    handle.join();
+}
+
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(move || {
+        println!("Heres a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+}
+
 use std::{sync::mpsc, thread};
 
 fn main() {
