@@ -24,3 +24,21 @@ async fn main() {
 
     println!("2 Seconds Later");
 }
+
+// with tokio
+use tokio::{join, time::{sleep, Duration}};
+
+#[tokio::main]
+async fn main() {
+    println!("Starting async task...");
+
+    simple_async().await;
+
+    println!("Async task finished");
+}
+
+async fn simple_async() {
+    println!("Inside simple_async(), sleeping for 3 seconds");
+    sleep(Duration::from_secs(3)).await;
+    println!("Done sleeping");
+}
