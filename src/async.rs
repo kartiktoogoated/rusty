@@ -12,3 +12,15 @@ async fn delay() {
     sleep(Duration::from_secs(10)).await;
     println!("Hey after 10 seconds");
 }
+
+use tokio::time::{sleep, Duration};
+
+#[tokio::main]
+async fn main() {
+    println!("Start");
+
+    // .await suspends here without blocking the thread
+    sleep(Duration::from_secs(2)).await;
+
+    println!("2 Seconds Later");
+}
