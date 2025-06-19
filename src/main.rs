@@ -1,24 +1,19 @@
-use tokio::{time::{sleep, Duration}};
+use std::future::Future;
+
+// A function that takes a string slice with a lifetime and returns a future
+async fn print_with_lifetime<'a>(msg: &'a str) {
+    println!("Message: {}", msg);
+}
+
+// A function that returns a future, showing how lifetimes can be used with async
+fn async_with_lifetime<'a>(msg: &'a str) -> impl Future<Output = ()> + 'a {
+    async move {
+        print_with_lifetime(msg).await;
+    }
+}
 
 #[tokio::main]
 async fn main() {
-    println!("Fetching data...");
-    let raw_data = fetch_data().await;
-
-    println!("Transforming data...");
-    let final_output = transform_data(raw_data).await;
-
-    println!("Final output: {}", final_output);
-}
-
-async fn fetch_data() -> String {
-    println!("Waiting 3s");
-    sleep(Duration::from_secs(3)).await;
-    "hello from fetch".to_string()
-}
-
-async fn transform_data(data: String) -> String {
-    println!("Processing");
-    sleep(Duration::from_secs(2)).await;
-    format!("{} -> transformed", data)
+    let message = String::from("Hello, lifetimes with async!");
+    async_with_lifetime(&message).await;
 }
